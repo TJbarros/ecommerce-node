@@ -34,9 +34,9 @@ class ProductSchema extends Schema {
   }
 
   down() {
-    this.drop('products')
-    this.drop('image_product')
     this.drop('category_product')
+    this.drop('image_product')
+    this.drop('products')
   }
 }
 

@@ -4,20 +4,30 @@
 const Schema = use('Schema')
 
 class ProductSchema extends Schema {
-  up () {
+  up() {
     this.create('products', (table) => {
       table.increments()
       table.string('name', 200)
       table.text('description')
       table.decimal('price', 12, 2)
-      table.integer('image_id')
+      table.integer('image_id').unsigned()
       table.foreign('image_id').references('id').inTable('images').onDelete('cascade')
+      table.timestamps()
+    })
+
+    this.create('image_product', table => {
+      table.increments()
+      table.integer('image_id').unsigned()
+      table.integer('product_id').unsigned()
+      table.foreign('image_id').references('id').inTable('images').onDelete('cascade')
+      table.foreign('product_id').references('id').inTable('products').onDelete('cascade')
       table.timestamps()
     })
   }
 
-  down () {
+  down() {
     this.drop('products')
+    this.drop('image_product')
   }
 }
 
